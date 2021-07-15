@@ -15,6 +15,7 @@ function handleSearch() {
     fetchLatLon(cityInput);
 }
 
+// Get latitude/longitude of city input
 function fetchLatLon(cityName) {
     fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1&appid=c8aa884e6f28d929f55e9ba1856815bd")
         .then(function (response) {
@@ -28,14 +29,22 @@ function fetchLatLon(cityName) {
         })
 }
 
-    // Fetch current weather data from API
-        // Temp
-        // Wind
-        // Humidity
-        // UV index
+// Get weather data of latitude/longitude of city input
 function fetchWeather(lat, lon) {
-    console.log(lat);
-    console.log(lon);
+    fetch ("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=c8aa884e6f28d929f55e9ba1856815bd")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+
+            // Get current weather
+            var currentTemp = data.current.temp;
+            var currentWindSpeed = data.current.wind_speed;
+            var currentHumidity = data.current.humidity;
+            var currentUVI = data.current.uvi;
+            var currentWeatherIcon = data.current.weather[0].icon;
+        })
 }
 
         // Render information to page
