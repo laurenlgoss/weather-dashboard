@@ -1,12 +1,24 @@
+var searchButtonEl = document.querySelector("#custom-search-button");
+var cityInputEl = document.querySelector("#city-input")
+
 // Add event listener to search button
+searchButtonEl.addEventListener("click", handleSearch);
 
 // Upon button click,
+function handleSearch() {
+    var cityInput = cityInputEl.value.trim();
+    
+    fetchLatLon(cityInput);
+}
     // Fetch current weather data from API
         // Temp
         // Wind
         // Humidity
         // UV index
 
+function fetchLatLon(cityName) {
+    
+}
         // Render information to page
             // Display name of city
 
