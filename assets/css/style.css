@@ -29,6 +29,10 @@ main {
 
 }
 
+.current-weather {
+    display: inline;
+}
+
 .custom-forecast-container {
     margin-top: 1em;
 }

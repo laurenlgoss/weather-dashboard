@@ -1,23 +1,26 @@
 var searchButtonEl = document.querySelector("#custom-search-button");
 var cityInputEl = document.querySelector("#city-input")
+var currentTempEl = document.querySelector("#current-temp");
+var currentWindSpeedEl = document.querySelector("#current-wind-speed");
+var currentHumidityEl = document.querySelector("#current-humidity");
+var currentUVIEl = document.querySelector("#current-uvi");
 
 function init() {
-
+    // Add event listener to search button
+    searchButtonEl.addEventListener("click", handleSearch);
 }
-
-// Add event listener to search button
-searchButtonEl.addEventListener("click", handleSearch);
 
 // Upon button click,
 function handleSearch() {
+    // Get user input
     var cityInput = cityInputEl.value.trim();
 
     fetchLatLon(cityInput);
 }
 
 // Get latitude/longitude of city input
-function fetchLatLon(cityName) {
-    fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1&appid=c8aa884e6f28d929f55e9ba1856815bd")
+function fetchLatLon(cityInput) {
+    fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + cityInput + "&limit=1&appid=c8aa884e6f28d929f55e9ba1856815bd")
         .then(function (response) {
             return response.json();
         })
@@ -40,9 +43,9 @@ function fetchWeather(lat, lon) {
 
             // Get current weather
             var currentWeatherIcon = data.current.weather[0].icon;
-            var currentTemp = data.current.temp;
-            var currentWindSpeed = data.current.wind_speed;
-            var currentHumidity = data.current.humidity;
+            var currentTemp = data.current.temp + " F";
+            var currentWindSpeed = data.current.wind_speed + " MPH";
+            var currentHumidity = data.current.humidity + "%";
             var currentUVI = data.current.uvi;
 
             // Get 5-day forecast weather
@@ -54,19 +57,26 @@ function fetchWeather(lat, lon) {
             for (var i = 0; i < 5; i++) {
                 forecastWeatherIconArray.push(data.daily[i].weather[0].icon);
             }
-
             for (var i = 0; i < 5; i++) {
-                forecastTempArray.push(data.daily[i].temp.max);
+                forecastTempArray.push(data.daily[i].temp.max + " F");
+            }
+            for (var i = 0; i < 5; i++) {
+                forecastWindArray.push(data.daily[i].wind_speed) + " MPH";
+            }
+            for (var i = 0; i < 5; i++) {
+                forecastHumidityArray.push(data.daily[i].humidity + "%");
             }
 
-            for (var i = 0; i < 5; i++) {
-                forecastWindArray.push(data.daily[i].wind_speed);
-            }
-
-            for (var i = 0; i < 5; i++) {
-                forecastHumidityArray.push(data.daily[i].humidity);
-            }
+            renderCurrentWeather(currentTemp, currentWindSpeed, currentHumidity, currentUVI);
         })
+}
+
+// Render current weather to page
+function renderCurrentWeather(currentTemp, currentWindSpeed, currentHumidity, currentUVI) {
+    currentTempEl.textContent = currentTemp;
+    currentWindSpeedEl.textContent = currentWindSpeed;
+    currentHumidityEl.textContent = currentHumidity;
+    currentUVIEl.textContent = currentUVI;
 }
 
         // Render information to page
