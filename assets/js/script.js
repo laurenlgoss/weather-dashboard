@@ -39,11 +39,33 @@ function fetchWeather(lat, lon) {
             console.log(data);
 
             // Get current weather
+            var currentWeatherIcon = data.current.weather[0].icon;
             var currentTemp = data.current.temp;
             var currentWindSpeed = data.current.wind_speed;
             var currentHumidity = data.current.humidity;
             var currentUVI = data.current.uvi;
-            var currentWeatherIcon = data.current.weather[0].icon;
+
+            // Get 5-day forecast weather
+            var forecastWeatherIconArray = [];
+            var forecastTempArray = [];
+            var forecastWindArray = [];
+            var forecastHumidityArray = [];
+
+            for (var i = 0; i < 5; i++) {
+                forecastWeatherIconArray.push(data.daily[i].weather[0].icon);
+            }
+
+            for (var i = 0; i < 5; i++) {
+                forecastTempArray.push(data.daily[i].temp.max);
+            }
+
+            for (var i = 0; i < 5; i++) {
+                forecastWindArray.push(data.daily[i].wind_speed);
+            }
+
+            for (var i = 0; i < 5; i++) {
+                forecastHumidityArray.push(data.daily[i].humidity);
+            }
         })
 }
 
