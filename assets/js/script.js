@@ -20,11 +20,20 @@ var forecastHumidityElArray = document.querySelectorAll(".forecast-humidity");
 var currentDate = moment();
 
 // Create array for local storage
-var storedCityButtonArray = JSON.parse(localStorage.getItem("cityButton")) || [];
+var storedCityArray = JSON.parse(localStorage.getItem("city")) || [];
 
 function init() {
     // Add event listener to search button
     searchButtonEl.addEventListener("click", handleSearch);
+
+    renderStoredHistory();
+}
+
+// Render search history to page
+function renderStoredHistory() {
+    for (i = 0; i < storedCityArray.length; i++) {
+        renderCityButtons(storedCityArray[i]);
+    }
 }
 
 // Upon button click,
@@ -36,25 +45,20 @@ function handleSearch() {
     var currentWeatherTitle = cityInput + " (" + currentDate.format("M/D/YYYY") + ")";
     currentWeatherTitleEl.textContent = currentWeatherTitle;
 
+    // Insert city input into local storage array
+    storedCityArray.unshift(cityInput);
+    localStorage.setItem("city", JSON.stringify(storedCityArray));
+
     renderCityButtons(cityInput);
     fetchLatLon(cityInput);
 }
 
-// Render search history buttons to page
+// Render city buttons to page
 function renderCityButtons(cityInput) {
     var cityButton = document.createElement("button");
     cityButton.setAttribute("class", "btn btn-secondary custom-history-button");
     cityButton.textContent = cityInput;
     searchCardBody.appendChild(cityButton);
-
-    var cityObject = {
-        cityName: cityInput,
-        cityButton: cityButton,
-    }
-
-    // Push city object into local storage array
-    storedCityButtonArray.push(cityObject);
-    localStorage.setItem("city", JSON.stringify(storedCityButtonArray));
 }
 
 // Get latitude/longitude of city input
