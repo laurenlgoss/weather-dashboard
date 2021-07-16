@@ -29,7 +29,12 @@ main {
 
 }
 
-.current-weather {
+#current-weather-icon {
+    display: inline;
+    height: 3em;
+}
+
+#current-weather-title {
     display: inline;
 }
 

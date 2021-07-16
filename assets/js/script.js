@@ -1,9 +1,14 @@
 var searchButtonEl = document.querySelector("#custom-search-button");
 var cityInputEl = document.querySelector("#city-input")
+var currentWeatherTitleEl = document.querySelector("#current-weather-title");
+var currentWeatherIconEl = document.querySelector("#current-weather-icon");
+var currentDateEl = document.querySelector("#current-date");
 var currentTempEl = document.querySelector("#current-temp");
 var currentWindSpeedEl = document.querySelector("#current-wind-speed");
 var currentHumidityEl = document.querySelector("#current-humidity");
 var currentUVIEl = document.querySelector("#current-uvi");
+
+var currentDate = moment();
 
 function init() {
     // Add event listener to search button
@@ -14,6 +19,10 @@ function init() {
 function handleSearch() {
     // Get user input
     var cityInput = cityInputEl.value.trim();
+
+    // Render city name and current date to current weather card
+    var currentWeatherTitle = cityInput + " (" + currentDate.format("M/D/YYYY") + ")";
+    currentWeatherTitleEl.textContent = currentWeatherTitle;
 
     fetchLatLon(cityInput);
 }
@@ -51,7 +60,7 @@ function fetchWeather(lat, lon) {
             // Get 5-day forecast weather
             var forecastWeatherIconArray = [];
             var forecastTempArray = [];
-            var forecastWindArray = [];
+            var forecastWindSpeedArray = [];
             var forecastHumidityArray = [];
 
             for (var i = 0; i < 5; i++) {
@@ -61,18 +70,20 @@ function fetchWeather(lat, lon) {
                 forecastTempArray.push(data.daily[i].temp.max + " F");
             }
             for (var i = 0; i < 5; i++) {
-                forecastWindArray.push(data.daily[i].wind_speed) + " MPH";
+                forecastWindSpeedArray.push(data.daily[i].wind_speed) + " MPH";
             }
             for (var i = 0; i < 5; i++) {
                 forecastHumidityArray.push(data.daily[i].humidity + "%");
             }
 
-            renderCurrentWeather(currentTemp, currentWindSpeed, currentHumidity, currentUVI);
+            renderCurrentWeather(currentWeatherIcon, currentTemp, currentWindSpeed, currentHumidity, currentUVI);
         })
 }
 
-// Render current weather to page
-function renderCurrentWeather(currentTemp, currentWindSpeed, currentHumidity, currentUVI) {
+// Render current weather to current weather card
+function renderCurrentWeather(currentWeatherIcon, currentTemp, currentWindSpeed, currentHumidity, currentUVI) {
+    currentWeatherIconEl.setAttribute("src", "http://openweathermap.org/img/wn/" + currentWeatherIcon + "@2x.png");
+    
     currentTempEl.textContent = currentTemp;
     currentWindSpeedEl.textContent = currentWindSpeed;
     currentHumidityEl.textContent = currentHumidity;

@@ -47,7 +47,8 @@
                         <!-- Bootstrap card -->
                         <div class="card" style="width: auto;">
                             <div class="card-body">
-                                <h5 class="card-title"></h5>
+                                <h5 class="card-title" id="current-weather-title"></h5>
+                                    <img id="current-weather-icon">
                                 <p class="card-text">Temp: <span class="card-text" id="current-temp"></span></p>
                                 <p class="card-text">Wind: <span class="card-text" id="current-wind-speed"></span></p>
                                 <p class="card-text">Humidity: <span class="card-text" id="current-humidity"></span></p>
@@ -125,6 +126,7 @@
         </div>
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 
