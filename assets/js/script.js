@@ -24,7 +24,7 @@ var storedCityArray = JSON.parse(localStorage.getItem("city")) || [];
 
 function init() {
     // Add event listener to search button
-    searchButtonEl.addEventListener("click", handleSearch);
+    searchButtonEl.addEventListener("click", getUserInput);
 
     renderStoredHistory();
 }
@@ -36,11 +36,31 @@ function renderStoredHistory() {
     }
 }
 
-// Upon button click,
-function handleSearch() {
-    // Get user input
-    var cityInput = cityInputEl.value.trim();
+// Render city buttons to page
+function renderCityButtons(cityInput) {
+    var cityButton = document.createElement("button");
+    cityButton.setAttribute("class", "btn btn-secondary custom-history-button");
+    cityButton.textContent = cityInput;
+    searchCardBody.appendChild(cityButton);
 
+    // Add event listener to city buttons
+    cityButton.addEventListener("click", getUserInput);
+}
+
+// Get user input
+function getUserInput(event) {
+    // If a history button is clicked,
+    if (event.target.classList.contains("custom-history-button")) {
+        return handleSearch(event.target.textContent);
+    }
+    // If the search button is clicked and input is populated,
+    else if (event.target.value !== "") {
+        return handleSearch(cityInputEl.value.trim());
+    }
+}
+
+// Upon button click,
+function handleSearch(cityInput) {
     // Render city name and current date to current weather card
     var currentWeatherTitle = cityInput + " (" + currentDate.format("M/D/YYYY") + ")";
     currentWeatherTitleEl.textContent = currentWeatherTitle;
@@ -51,14 +71,6 @@ function handleSearch() {
 
     renderCityButtons(cityInput);
     fetchLatLon(cityInput);
-}
-
-// Render city buttons to page
-function renderCityButtons(cityInput) {
-    var cityButton = document.createElement("button");
-    cityButton.setAttribute("class", "btn btn-secondary custom-history-button");
-    cityButton.textContent = cityInput;
-    searchCardBody.appendChild(cityButton);
 }
 
 // Get latitude/longitude of city input
