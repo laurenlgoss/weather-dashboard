@@ -1,6 +1,8 @@
 var searchButtonEl = document.querySelector("#custom-search-button");
 var cityInputEl = document.querySelector("#city-input")
 
+var cityButtonContainerEl = document.querySelector(".custom-city-button-container");
+
 var currentWeatherTitleEl = document.querySelector("#current-weather-title");
 var currentWeatherIconEl = document.querySelector("#current-weather-icon");
 var currentDateEl = document.querySelector("#current-date");
@@ -8,8 +10,6 @@ var currentTempEl = document.querySelector("#current-temp");
 var currentWindSpeedEl = document.querySelector("#current-wind-speed");
 var currentHumidityEl = document.querySelector("#current-humidity");
 var currentUVIEl = document.querySelector("#current-uvi");
-
-var cityButtonContainerEl = document.querySelector(".custom-city-button-container");
 
 var forecastDateElArray = document.querySelectorAll(".forecast-date");
 var forecastIconElArray = document.querySelectorAll(".forecast-icon");
@@ -31,7 +31,10 @@ function init() {
 
 // Render search history to page
 function renderStoredHistory() {
-    // Display only last 10 search results
+    // Empty button container
+    cityButtonContainerEl.innerHTML = "";
+
+    // Render only last 10 search results
     var limitedStorageArray = storedCityArray.slice(0, 10);
 
     for (var i = 0; i < limitedStorageArray.length; i++) {
@@ -91,7 +94,7 @@ function handleSearch(cityInput) {
 
 // Get latitude/longitude of city input
 function fetchLatLon(cityInput) {
-    fetch("http://api.openweathermap.org/geo/1.0/direct?q=" + cityInput + "&limit=1&appid=c8aa884e6f28d929f55e9ba1856815bd")
+    fetch("https://api.openweathermap.org/geo/1.0/direct?q=" + cityInput + "&limit=1&appid=c8aa884e6f28d929f55e9ba1856815bd")
         .then(function (response) {
             return response.json();
         })
