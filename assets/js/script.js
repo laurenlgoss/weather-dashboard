@@ -36,6 +36,19 @@ function renderStoredHistory() {
     }
 }
 
+// Get user input
+function getUserInput(event) {
+    // If a history button is clicked,
+    if (event.target.classList.contains("custom-history-button")) {
+        return handleSearch(event.target.textContent);
+    }
+    // If the search button is clicked and input is populated,
+    else if (cityInputEl.value !== "") {
+        renderCityButtons(cityInputEl.value.trim())
+        return handleSearch(cityInputEl.value.trim());
+    }
+}
+
 // Render city buttons to page
 function renderCityButtons(cityInput) {
     var cityButton = document.createElement("button");
@@ -45,18 +58,6 @@ function renderCityButtons(cityInput) {
 
     // Add event listener to city buttons
     cityButton.addEventListener("click", getUserInput);
-}
-
-// Get user input
-function getUserInput(event) {
-    // If a history button is clicked,
-    if (event.target.classList.contains("custom-history-button")) {
-        return handleSearch(event.target.textContent);
-    }
-    // If the search button is clicked and input is populated,
-    else if (event.target.value !== "") {
-        return handleSearch(cityInputEl.value.trim());
-    }
 }
 
 // Upon button click,
@@ -69,7 +70,6 @@ function handleSearch(cityInput) {
     storedCityArray.unshift(cityInput);
     localStorage.setItem("city", JSON.stringify(storedCityArray));
 
-    renderCityButtons(cityInput);
     fetchLatLon(cityInput);
 }
 
@@ -153,11 +153,10 @@ function renderForecast(forecastArray) {
     }
 }
 
-// Render cities from local storage to page
-
-// Add event listener to city buttons
-
-// Upon button click,
-// Repeat search button function with that city's input
-
 init();
+
+// Sort buttons from newest to oldest
+
+// Ensure no repeated cities in history
+
+// Clean up HTML/CSS
