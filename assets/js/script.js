@@ -90,6 +90,15 @@ function renderCurrentWeather(currentWeather) {
     currentWindSpeedEl.textContent = currentWeather.windSpeed;
     currentHumidityEl.textContent = currentWeather.humidity;
     currentUVIEl.textContent = currentWeather.UVI;
+
+    // Color code UVI
+    if (currentWeather.UVI < 3) {
+        currentUVIEl.classList.add("btn-success");
+    } else if (3 < currentWeather.UVI < 5) {
+        currentUVIEl.classList.add("btn-warning");
+    } else {
+        currentUVIEl.classList.add("btn-danger");
+    }
 }
 
 // Render forecast to page
@@ -102,25 +111,7 @@ function renderForecast(forecastArray) {
     }
 }
 
-// Render information to page
-// Display name of city
-
-// Display today's date
-
-// Display icon representing weather conditions
-
-// Color code UV index
-
-// Fetch 5-day forecast data from API
-// Temp
-// Wind
-// Humidity
-
-// Render information to page
-// For each card,
 // Display future date
-
-// Display icon representing weather conditions
 
 // Add current search to local storage
 // Render cities from local storage to page
