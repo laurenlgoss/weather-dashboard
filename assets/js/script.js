@@ -17,7 +17,7 @@ var forecastTempElArray = document.querySelectorAll(".forecast-temp");
 var forecastWindElArray = document.querySelectorAll(".forecast-wind");
 var forecastHumidityElArray = document.querySelectorAll(".forecast-humidity");
 
-var currentDate = moment();
+const currentDate = moment();
 
 // Create array for local storage
 var storedCityArray = JSON.parse(localStorage.getItem("city")) || [];
@@ -74,7 +74,6 @@ function renderCityButtons(cityInput) {
     cityButton.addEventListener("click", getUserInput);
 }
 
-// Upon button click,
 function handleSearch(cityInput) {
     // Render city name and current date to current weather card
     var currentWeatherTitle = cityInput + " (" + currentDate.format("M/D/YYYY") + ")";
@@ -157,9 +156,16 @@ function renderCurrentWeather(currentWeather) {
 function renderForecast(forecastArray) {
     for (var i = 0; i < forecastArray.length; i++) {
         // Render future dates
-        var forecastDate = currentDate.add(1, "days");
-        forecastDateElArray[i].textContent = forecastDate.format("M/D/YYYY");
+        var forecastDates = [
+            currentDate.clone().add(1, "days"),
+            currentDate.clone().add(2, "days"),
+            currentDate.clone().add(3, "days"),
+            currentDate.clone().add(4, "days"),
+            currentDate.clone().add(5, "days"),
+        ];
+        forecastDateElArray[i].textContent = forecastDates[i].format("M/D/YYYY");
 
+        // Render forecast weather
         forecastIconElArray[i].setAttribute("src", forecastArray[i].weatherIcon);
         forecastTempElArray[i].textContent = forecastArray[i].temp;
         forecastWindElArray[i].textContent = forecastArray[i].windSpeed;
@@ -176,3 +182,5 @@ init();
 // Fix some page styling
 
 // Clean up HTML/CSS
+
+// Display only last 10 search results
