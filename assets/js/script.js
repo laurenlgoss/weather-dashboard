@@ -17,6 +17,9 @@ var forecastHumidityElArray = document.querySelectorAll(".forecast-humidity");
 
 var currentDate = moment();
 
+// Create array for local storage
+var storedCityArray = localStorage.getItem("cityInput") || [];
+
 function init() {
     // Add event listener to search button
     searchButtonEl.addEventListener("click", handleSearch);
@@ -31,7 +34,17 @@ function handleSearch() {
     var currentWeatherTitle = cityInput + " (" + currentDate.format("M/D/YYYY") + ")";
     currentWeatherTitleEl.textContent = currentWeatherTitle;
 
+    // Push city input into local storage array
+    storedCityArray.push(cityInput);
+    localStorage.setItem("cityInput", cityInput);
+
+    renderStoredCities();
     fetchLatLon(cityInput);
+}
+
+// Render cities from local storage to page
+function renderStoredCities() {
+    console.log(storedCityArray);
 }
 
 // Get latitude/longitude of city input
@@ -55,8 +68,6 @@ function fetchWeather(lat, lon) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
-
             // Get current weather
             var currentWeather = {
                 weatherIcon: "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png",
