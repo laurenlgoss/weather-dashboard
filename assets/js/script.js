@@ -9,6 +9,11 @@ var currentWindSpeedEl = document.querySelector("#current-wind-speed");
 var currentHumidityEl = document.querySelector("#current-humidity");
 var currentUVIEl = document.querySelector("#current-uvi");
 
+var forecastIconElArray = document.querySelectorAll(".forecast-icon");
+var forecastTempElArray = document.querySelectorAll(".forecast-temp");
+var forecastWindElArray = document.querySelectorAll(".forecast-wind");
+var forecastHumidityElArray = document.querySelectorAll(".forecast-humidity");
+
 var currentDate = moment();
 
 function init() {
@@ -87,8 +92,14 @@ function renderCurrentWeather(currentWeather) {
     currentUVIEl.textContent = currentWeather.UVI;
 }
 
+// Render forecast to page
 function renderForecast(forecastArray) {
-
+    for (i = 0; i < forecastArray.length; i++) {
+        forecastIconElArray[i].setAttribute("src", forecastArray[i].weatherIcon);
+        forecastTempElArray[i].textContent = forecastArray[i].temp;
+        forecastWindElArray[i].textContent = forecastArray[i].windSpeed;
+        forecastHumidityElArray[i].textContent = forecastArray[i].humidity;
+    }
 }
 
 // Render information to page
