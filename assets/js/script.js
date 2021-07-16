@@ -115,7 +115,7 @@ function fetchWeather(lat, lon) {
         .then(function (data) {
             // Get current weather
             var currentWeather = {
-                weatherIcon: "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png",
+                weatherIcon: "https://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png",
                 temp: data.current.temp + " F",
                 windSpeed: data.current.wind_speed + " MPH",
                 humidity: data.current.humidity + "%",
@@ -127,7 +127,7 @@ function fetchWeather(lat, lon) {
             for (var i = 0; i < 5; i++) {
                 forecastArray.push(
                     {
-                        weatherIcon: "http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png",
+                        weatherIcon: "https://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png",
                         temp: data.daily[i].temp.max + " F",
                         windSpeed: data.daily[i].wind_speed + " MPH",
                         humidity: data.daily[i].humidity + "%",
