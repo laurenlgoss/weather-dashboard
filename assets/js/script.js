@@ -94,11 +94,11 @@ function renderCurrentWeather(currentWeather) {
 
     // Color code UVI
     if (currentWeather.UVI < 3) {
-        currentUVIEl.classList.add("btn-success");
-    } else if (3 < currentWeather.UVI < 5) {
-        currentUVIEl.classList.add("btn-warning");
+        currentUVIEl.setAttribute("class", "card-text btn btn-success");
+    } else if (currentWeather.UVI > 3 && currentWeather.UVI < 5) {
+        currentUVIEl.setAttribute("class", "card-text btn btn-warning");
     } else {
-        currentUVIEl.classList.add("btn-danger");
+        currentUVIEl.setAttribute("class", "card-text btn btn-danger");
     }
 }
 
