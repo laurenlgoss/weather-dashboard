@@ -9,6 +9,7 @@ var currentWindSpeedEl = document.querySelector("#current-wind-speed");
 var currentHumidityEl = document.querySelector("#current-humidity");
 var currentUVIEl = document.querySelector("#current-uvi");
 
+var forecastDataElArray = document.querySelectorAll(".forecast-date");
 var forecastIconElArray = document.querySelectorAll(".forecast-icon");
 var forecastTempElArray = document.querySelectorAll(".forecast-temp");
 var forecastWindElArray = document.querySelectorAll(".forecast-wind");
@@ -104,14 +105,16 @@ function renderCurrentWeather(currentWeather) {
 // Render forecast to page
 function renderForecast(forecastArray) {
     for (i = 0; i < forecastArray.length; i++) {
+        // Render future dates
+        var forecastDate = currentDate.add(1, "days");
+        forecastDataElArray[i].textContent = forecastDate.format("M/D/YYYY");
+
         forecastIconElArray[i].setAttribute("src", forecastArray[i].weatherIcon);
         forecastTempElArray[i].textContent = forecastArray[i].temp;
         forecastWindElArray[i].textContent = forecastArray[i].windSpeed;
         forecastHumidityElArray[i].textContent = forecastArray[i].humidity;
     }
 }
-
-// Display future date
 
 // Add current search to local storage
 // Render cities from local storage to page
