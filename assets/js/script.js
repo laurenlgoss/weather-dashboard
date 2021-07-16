@@ -11,7 +11,7 @@ var currentUVIEl = document.querySelector("#current-uvi");
 
 var searchCardBody = document.querySelector("#custom-search-card-body");
 
-var forecastDataElArray = document.querySelectorAll(".forecast-date");
+var forecastDateElArray = document.querySelectorAll(".forecast-date");
 var forecastIconElArray = document.querySelectorAll(".forecast-icon");
 var forecastTempElArray = document.querySelectorAll(".forecast-temp");
 var forecastWindElArray = document.querySelectorAll(".forecast-wind");
@@ -31,7 +31,7 @@ function init() {
 
 // Render search history to page
 function renderStoredHistory() {
-    for (i = 0; i < storedCityArray.length; i++) {
+    for (var i = 0; i < storedCityArray.length; i++) {
         renderCityButtons(storedCityArray[i]);
     }
 }
@@ -44,9 +44,23 @@ function getUserInput(event) {
     }
     // If the search button is clicked and input is populated,
     else if (cityInputEl.value !== "") {
-        renderCityButtons(cityInputEl.value.trim())
-        return handleSearch(cityInputEl.value.trim());
+        var uppercaseCity = capitalizeFirstLetter(cityInputEl.value.trim());
+
+        renderCityButtons(uppercaseCity);
+        return handleSearch(uppercaseCity);
     }
+}
+
+// Capitalize first letter of inputted string
+function capitalizeFirstLetter(string) {
+    var lowercaseCity = string;
+    var stringArray = lowercaseCity.split(" ");
+
+    for (var i = 0; i < stringArray.length; i++) {
+        stringArray[i] = stringArray[i].charAt(0).toUpperCase() + stringArray[i].slice(1);
+    }
+
+    return stringArray.join(" ");
 }
 
 // Render city buttons to page
@@ -105,7 +119,7 @@ function fetchWeather(lat, lon) {
 
             var forecastArray = [];
             // Get 5-day forecast weather, push objects into forecastArray
-            for (i = 0; i < 5; i++) {
+            for (var i = 0; i < 5; i++) {
                 forecastArray.push(
                     {
                         weatherIcon: "http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png",
@@ -141,10 +155,10 @@ function renderCurrentWeather(currentWeather) {
 
 // Render forecast to page
 function renderForecast(forecastArray) {
-    for (i = 0; i < forecastArray.length; i++) {
+    for (var i = 0; i < forecastArray.length; i++) {
         // Render future dates
         var forecastDate = currentDate.add(1, "days");
-        forecastDataElArray[i].textContent = forecastDate.format("M/D/YYYY");
+        forecastDateElArray[i].textContent = forecastDate.format("M/D/YYYY");
 
         forecastIconElArray[i].setAttribute("src", forecastArray[i].weatherIcon);
         forecastTempElArray[i].textContent = forecastArray[i].temp;
@@ -158,5 +172,7 @@ init();
 // Sort buttons from newest to oldest
 
 // Ensure no repeated cities in history
+
+// Fix some page styling
 
 // Clean up HTML/CSS
