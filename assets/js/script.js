@@ -9,6 +9,8 @@ var currentWindSpeedEl = document.querySelector("#current-wind-speed");
 var currentHumidityEl = document.querySelector("#current-humidity");
 var currentUVIEl = document.querySelector("#current-uvi");
 
+var searchCardBody = document.querySelector("#custom-search-card-body");
+
 var forecastDataElArray = document.querySelectorAll(".forecast-date");
 var forecastIconElArray = document.querySelectorAll(".forecast-icon");
 var forecastTempElArray = document.querySelectorAll(".forecast-temp");
@@ -18,7 +20,7 @@ var forecastHumidityElArray = document.querySelectorAll(".forecast-humidity");
 var currentDate = moment();
 
 // Create array for local storage
-var storedCityArray = localStorage.getItem("cityInput") || [];
+var storedCityButtonArray = JSON.parse(localStorage.getItem("cityButton")) || [];
 
 function init() {
     // Add event listener to search button
@@ -34,17 +36,25 @@ function handleSearch() {
     var currentWeatherTitle = cityInput + " (" + currentDate.format("M/D/YYYY") + ")";
     currentWeatherTitleEl.textContent = currentWeatherTitle;
 
-    // Push city input into local storage array
-    storedCityArray.push(cityInput);
-    localStorage.setItem("cityInput", cityInput);
-
-    renderStoredCities();
+    renderCityButtons(cityInput);
     fetchLatLon(cityInput);
 }
 
-// Render cities from local storage to page
-function renderStoredCities() {
-    console.log(storedCityArray);
+// Render search history buttons to page
+function renderCityButtons(cityInput) {
+    var cityButton = document.createElement("button");
+    cityButton.setAttribute("class", "btn btn-secondary custom-history-button");
+    cityButton.textContent = cityInput;
+    searchCardBody.appendChild(cityButton);
+
+    var cityObject = {
+        cityName: cityInput,
+        cityButton: cityButton,
+    }
+
+    // Push city object into local storage array
+    storedCityButtonArray.push(cityObject);
+    localStorage.setItem("city", JSON.stringify(storedCityButtonArray));
 }
 
 // Get latitude/longitude of city input
@@ -127,7 +137,6 @@ function renderForecast(forecastArray) {
     }
 }
 
-// Add current search to local storage
 // Render cities from local storage to page
 
 // Add event listener to city buttons
