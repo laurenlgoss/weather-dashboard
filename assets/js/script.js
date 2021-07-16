@@ -1,5 +1,6 @@
 var searchButtonEl = document.querySelector("#custom-search-button");
 var cityInputEl = document.querySelector("#city-input")
+
 var currentWeatherTitleEl = document.querySelector("#current-weather-title");
 var currentWeatherIconEl = document.querySelector("#current-weather-icon");
 var currentDateEl = document.querySelector("#current-date");
@@ -43,80 +44,79 @@ function fetchLatLon(cityInput) {
 
 // Get weather data of latitude/longitude of city input
 function fetchWeather(lat, lon) {
-    fetch ("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=c8aa884e6f28d929f55e9ba1856815bd")
+    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=c8aa884e6f28d929f55e9ba1856815bd")
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
             console.log(data);
 
-        // Get current weather
-        var currentWeather = {
-            weatherIcon: "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png",
-            temp: data.current.temp + " F",
-            windSpeed: data.current.wind_speed + " MPH",
-            humidity: data.current.humidity + "%",
-            UVI: data.current.uvi,
-        };
+            // Get current weather
+            var currentWeather = {
+                weatherIcon: "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png",
+                temp: data.current.temp + " F",
+                windSpeed: data.current.wind_speed + " MPH",
+                humidity: data.current.humidity + "%",
+                UVI: data.current.uvi,
+            };
 
-        var futureWeatherArray = [];
+            var forecastArray = [];
+            // Get 5-day forecast weather, push objects into forecastArray
+            for (i = 0; i < 5; i++) {
+                forecastArray.push(
+                    {
+                        weatherIcon: "http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png",
+                        temp: data.daily[i].temp.max + " F",
+                        windSpeed: data.daily[i].wind_speed + " MPH",
+                        humidity: data.daily[i].humidity + "%",
+                    }
+                );
+            }
 
-        // Get 5-day forecast weather, push objects into futureWeatherArray
-        for (i = 0; i < 5; i++) {
-            futureWeatherArray.push({weatherIcon: "http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png",
-            temp: data.daily[i].temp.max + " F",
-            windSpeed: data.daily[i].wind_speed + " MPH",
-            humidity: data.daily[i].humidity + "%",});
-        }
-
-        var weatherArray = [currentWeather, futureWeatherArray];
-
-        renderWeather(weatherArray);
+            renderCurrentWeather(currentWeather);
+            renderForecast(forecastArray);
         })
 }
 
-// Render weather to page
-function renderWeather(weatherArray) {
-    for (i = 0; i < weatherArray.length; i++) {
-        // Render current weather
-        if (i === 0) {
-            currentWeatherIconEl.setAttribute("src", weatherArray[i].weatherIcon);
-            currentTempEl.textContent = weatherArray[i].temp;
-            currentWindSpeedEl.textContent = weatherArray[i].windSpeed;
-            currentHumidityEl.textContent = weatherArray[i].humidity;
-            currentUVIEl.textContent = weatherArray[i].UVI;
-        } else {
-            
-        }
-    }
+// Render current weather to page
+function renderCurrentWeather(currentWeather) {
+    currentWeatherIconEl.setAttribute("src", currentWeather.weatherIcon);
+    currentTempEl.textContent = currentWeather.temp;
+    currentWindSpeedEl.textContent = currentWeather.windSpeed;
+    currentHumidityEl.textContent = currentWeather.humidity;
+    currentUVIEl.textContent = currentWeather.UVI;
 }
 
-        // Render information to page
-            // Display name of city
+function renderForecast(forecastArray) {
 
-            // Display today's date
+}
 
-            // Display icon representing weather conditions
+// Render information to page
+// Display name of city
 
-            // Color code UV index
+// Display today's date
 
-    // Fetch 5-day forecast data from API
-        // Temp
-        // Wind
-        // Humidity
+// Display icon representing weather conditions
 
-        // Render information to page
-            // For each card,
-                // Display future date
+// Color code UV index
 
-                // Display icon representing weather conditions
+// Fetch 5-day forecast data from API
+// Temp
+// Wind
+// Humidity
 
-    // Add current search to local storage
-        // Render cities from local storage to page
+// Render information to page
+// For each card,
+// Display future date
 
-        // Add event listener to city buttons
+// Display icon representing weather conditions
 
-            // Upon button click,
-                // Repeat search button function with that city's input
+// Add current search to local storage
+// Render cities from local storage to page
+
+// Add event listener to city buttons
+
+// Upon button click,
+// Repeat search button function with that city's input
 
 init();
