@@ -9,7 +9,7 @@ var currentWindSpeedEl = document.querySelector("#current-wind-speed");
 var currentHumidityEl = document.querySelector("#current-humidity");
 var currentUVIEl = document.querySelector("#current-uvi");
 
-var searchCardBody = document.querySelector("#custom-search-card-body");
+var cityButtonContainerEl = document.querySelector(".custom-city-button-container");
 
 var forecastDateElArray = document.querySelectorAll(".forecast-date");
 var forecastIconElArray = document.querySelectorAll(".forecast-icon");
@@ -31,8 +31,11 @@ function init() {
 
 // Render search history to page
 function renderStoredHistory() {
-    for (var i = 0; i < storedCityArray.length; i++) {
-        renderCityButtons(storedCityArray[i]);
+    // Display only last 10 search results
+    var limitedStorageArray = storedCityArray.slice(0, 10);
+
+    for (var i = 0; i < limitedStorageArray.length; i++) {
+        renderCityButtons(limitedStorageArray[i]);
     }
 }
 
@@ -68,7 +71,7 @@ function renderCityButtons(cityInput) {
     var cityButton = document.createElement("button");
     cityButton.setAttribute("class", "btn btn-secondary custom-history-button");
     cityButton.textContent = cityInput;
-    searchCardBody.appendChild(cityButton);
+    cityButtonContainerEl.appendChild(cityButton);
 
     // Add event listener to city buttons
     cityButton.addEventListener("click", getUserInput);
@@ -79,8 +82,8 @@ function handleSearch(cityInput) {
     var currentWeatherTitle = cityInput + " (" + currentDate.format("M/D/YYYY") + ")";
     currentWeatherTitleEl.textContent = currentWeatherTitle;
 
-    // Insert city input into local storage array
-    storedCityArray.unshift(cityInput);
+    // Push city input into local storage array
+    storedCityArray.push(cityInput);
     localStorage.setItem("city", JSON.stringify(storedCityArray));
 
     fetchLatLon(cityInput);
@@ -174,8 +177,6 @@ function renderForecast(forecastArray) {
 }
 
 init();
-
-// Sort buttons from newest to oldest
 
 // Ensure no repeated cities in history
 
