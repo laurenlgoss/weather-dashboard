@@ -50,44 +50,45 @@ function fetchWeather(lat, lon) {
         .then(function (data) {
             console.log(data);
 
-            // Get current weather
-            var currentWeatherIcon = data.current.weather[0].icon;
-            var currentTemp = data.current.temp + " F";
-            var currentWindSpeed = data.current.wind_speed + " MPH";
-            var currentHumidity = data.current.humidity + "%";
-            var currentUVI = data.current.uvi;
+        // Get current weather
+        var currentWeather = {
+            weatherIcon: "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png",
+            temp: data.current.temp + " F",
+            windSpeed: data.current.wind_speed + " MPH",
+            humidity: data.current.humidity + "%",
+            UVI: data.current.uvi,
+        };
 
-            // Get 5-day forecast weather
-            var forecastWeatherIconArray = [];
-            var forecastTempArray = [];
-            var forecastWindSpeedArray = [];
-            var forecastHumidityArray = [];
+        var futureWeatherArray = [];
 
-            for (var i = 0; i < 5; i++) {
-                forecastWeatherIconArray.push(data.daily[i].weather[0].icon);
-            }
-            for (var i = 0; i < 5; i++) {
-                forecastTempArray.push(data.daily[i].temp.max + " F");
-            }
-            for (var i = 0; i < 5; i++) {
-                forecastWindSpeedArray.push(data.daily[i].wind_speed) + " MPH";
-            }
-            for (var i = 0; i < 5; i++) {
-                forecastHumidityArray.push(data.daily[i].humidity + "%");
-            }
+        // Get 5-day forecast weather, push objects into futureWeatherArray
+        for (i = 0; i < 5; i++) {
+            futureWeatherArray.push({weatherIcon: "http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png",
+            temp: data.daily[i].temp.max + " F",
+            windSpeed: data.daily[i].wind_speed + " MPH",
+            humidity: data.daily[i].humidity + "%",});
+        }
 
-            renderCurrentWeather(currentWeatherIcon, currentTemp, currentWindSpeed, currentHumidity, currentUVI);
+        var weatherArray = [currentWeather, futureWeatherArray];
+
+        renderWeather(weatherArray);
         })
 }
 
-// Render current weather to current weather card
-function renderCurrentWeather(currentWeatherIcon, currentTemp, currentWindSpeed, currentHumidity, currentUVI) {
-    currentWeatherIconEl.setAttribute("src", "http://openweathermap.org/img/wn/" + currentWeatherIcon + "@2x.png");
-    
-    currentTempEl.textContent = currentTemp;
-    currentWindSpeedEl.textContent = currentWindSpeed;
-    currentHumidityEl.textContent = currentHumidity;
-    currentUVIEl.textContent = currentUVI;
+// Render weather to page
+function renderWeather(weatherArray) {
+    for (i = 0; i < weatherArray.length; i++) {
+        // Render current weather
+        if (i === 0) {
+            currentWeatherIconEl.setAttribute("src", weatherArray[i].weatherIcon);
+            currentTempEl.textContent = weatherArray[i].temp;
+            currentWindSpeedEl.textContent = weatherArray[i].windSpeed;
+            currentHumidityEl.textContent = weatherArray[i].humidity;
+            currentUVIEl.textContent = weatherArray[i].UVI;
+        } else {
+            
+        }
+    }
 }
 
         // Render information to page
