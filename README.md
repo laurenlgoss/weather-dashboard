@@ -23,3 +23,11 @@ https://laurenlgoss.github.io/weather-dashboard/
 ## Screenshot of Application
 
 ![Weather Dashboard Screenshot](./assets/images/weather-dashboard-screenshot.png)
+
+## Developer Contact Information
+
+* Phone: (828)409-3012
+
+* [Email](laurenlgoss98@gmail.com)
+
+* [LinkedIn](https://www.linkedin.com/in/laurenlgoss/)
