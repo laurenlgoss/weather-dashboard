@@ -33,7 +33,7 @@ function init() {
 function getUserInput(event) {
     // If a history button is clicked,
     if (event.target.classList.contains("custom-history-button")) {
-        return handleSearch(event.target.textContent);
+        handleSearch(event.target.textContent);
     }
     // If the search button is clicked and input is populated,
     else if (cityInputEl.value !== "") {
@@ -44,14 +44,13 @@ function getUserInput(event) {
         localStorage.setItem("city", JSON.stringify(storedCityArray));
         
         renderCityButtons();
-        return handleSearch(uppercaseCity);
+        handleSearch(uppercaseCity);
     }
 }
 
 // Capitalize first letter of inputted string
 function capitalizeFirstLetter(string) {
-    var lowercaseCity = string;
-    var stringArray = lowercaseCity.split(" ");
+    var stringArray = string.split(" ");
 
     for (var i = 0; i < stringArray.length; i++) {
         stringArray[i] = stringArray[i].charAt(0).toUpperCase() + stringArray[i].slice(1);
@@ -71,6 +70,7 @@ function renderCityButtons() {
     // Remove duplicate cities
     var uniqueCityArray = limitedStorageArray.filter((v, i, a) => a.indexOf(v) === i);
 
+    // Render city buttons
     uniqueCityArray.forEach(city => {
         var cityButton = document.createElement("button");
         cityButton.setAttribute("class", "btn btn-secondary custom-history-button");
@@ -178,11 +178,3 @@ function renderForecast(forecastArray) {
 }
 
 init();
-
-// Ensure no repeated cities in history
-
-// Fix some page styling
-
-// Clean up HTML/CSS
-
-// Display only last 10 search results

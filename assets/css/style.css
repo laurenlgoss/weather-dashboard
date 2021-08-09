@@ -12,9 +12,7 @@ main {
     margin-top: 1em;
 }
 
-.custom-search-container {
-
-}
+/* Search Card */
 
 .custom-search-card {
     height: 100%;
@@ -26,9 +24,7 @@ main {
     margin-top: 1em;
 }
 
-.custom-current-weather-container {
-
-}
+/* Current Weather Card */
 
 #current-weather-icon {
     display: inline;
@@ -38,6 +34,8 @@ main {
 #current-weather-title {
     display: inline;
 }
+
+/* Forecast Cards */
 
 .custom-forecast-container {
     margin-top: 1em;
