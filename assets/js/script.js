@@ -26,20 +26,7 @@ function init() {
     // Add event listener to search button
     searchButtonEl.addEventListener("click", getUserInput);
 
-    renderStoredHistory();
-}
-
-// Render search history to page
-function renderStoredHistory() {
-    // Empty button container
-    cityButtonContainerEl.innerHTML = "";
-
-    // Render only last 10 search results
-    var limitedStorageArray = storedCityArray.slice(0, 10);
-
-    for (var i = 0; i < limitedStorageArray.length; i++) {
-        renderCityButtons(limitedStorageArray[i]);
-    }
+    renderCityButtons();
 }
 
 // Get user input
@@ -52,7 +39,11 @@ function getUserInput(event) {
     else if (cityInputEl.value !== "") {
         var uppercaseCity = capitalizeFirstLetter(cityInputEl.value.trim());
 
-        renderCityButtons(uppercaseCity);
+        // Push city input into local storage array
+        storedCityArray.push(uppercaseCity);
+        localStorage.setItem("city", JSON.stringify(storedCityArray));
+        
+        renderCityButtons();
         return handleSearch(uppercaseCity);
     }
 }
@@ -70,24 +61,31 @@ function capitalizeFirstLetter(string) {
 }
 
 // Render city buttons to page
-function renderCityButtons(cityInput) {
-    var cityButton = document.createElement("button");
-    cityButton.setAttribute("class", "btn btn-secondary custom-history-button");
-    cityButton.textContent = cityInput;
-    cityButtonContainerEl.appendChild(cityButton);
+function renderCityButtons() {
+    // Empty button container
+    cityButtonContainerEl.innerHTML = "";
 
-    // Add event listener to city buttons
-    cityButton.addEventListener("click", getUserInput);
+    // Render only last 10 search results
+    var limitedStorageArray = storedCityArray.slice(0, 10);
+
+    // Remove duplicate cities
+    var uniqueCityArray = limitedStorageArray.filter((v, i, a) => a.indexOf(v) === i);
+
+    uniqueCityArray.forEach(city => {
+        var cityButton = document.createElement("button");
+        cityButton.setAttribute("class", "btn btn-secondary custom-history-button");
+        cityButton.textContent = city;
+        cityButtonContainerEl.appendChild(cityButton);
+    
+        // Add event listener to city buttons
+        cityButton.addEventListener("click", getUserInput);
+    })
 }
 
 function handleSearch(cityInput) {
     // Render city name and current date to current weather card
     var currentWeatherTitle = cityInput + " (" + currentDate.format("M/D/YYYY") + ")";
     currentWeatherTitleEl.textContent = currentWeatherTitle;
-
-    // Push city input into local storage array
-    storedCityArray.push(cityInput);
-    localStorage.setItem("city", JSON.stringify(storedCityArray));
 
     fetchLatLon(cityInput);
 }
